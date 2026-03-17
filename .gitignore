@@ -1,10 +1,5 @@
-# Obsidian workspace state (machine/device specific, conflict-prone)
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-
-# Optional transient Obsidian state
-.obsidian/cache/
-.obsidian/workspace*.json
+# Obsidian 配置文件夹（包含机器特定状态，容易冲突）
+.obsidian/
 
 # OS temp files
 .DS_Store
