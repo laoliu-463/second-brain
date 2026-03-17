@@ -1,5 +1,6 @@
-# Obsidian 配置文件夹（包含机器特定状态，容易冲突）
-.obsidian/
+# Obsidian workspace files (conflict-prone between devices)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
 
 # OS temp files
 .DS_Store
