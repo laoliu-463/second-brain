@@ -1,0 +1,11 @@
+# Obsidian workspace state (machine/device specific, conflict-prone)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Optional transient Obsidian state
+.obsidian/cache/
+.obsidian/workspace*.json
+
+# OS temp files
+.DS_Store
+Thumbs.db
