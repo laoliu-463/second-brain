@@ -14,8 +14,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 function Run-Git {
-  param([string[]]$Args)
-  & git @Args
+  param([string[]]$GitArgs)
+  & git @GitArgs
 }
 
 function Ensure-Git {
@@ -27,12 +27,12 @@ function Ensure-Git {
 function Add-Paths {
   param([string[]]$LocalPaths)
   foreach ($p in $LocalPaths) {
-    Run-Git -Args @("add", "--", $p) | Out-Null
+    Run-Git -GitArgs @("add", "--", $p) | Out-Null
   }
 }
 
 function Has-Staged {
-  $diff = Run-Git -Args @("diff", "--cached", "--name-only")
+  $diff = Run-Git -GitArgs @("diff", "--cached", "--name-only")
   return -not [string]::IsNullOrWhiteSpace(($diff -join "`n"))
 }
 
@@ -53,7 +53,7 @@ function Commit-WithPrefix {
     return
   }
 
-  Run-Git -Args @("commit", "-m", $msg)
+  Run-Git -GitArgs @("commit", "-m", $msg)
 }
 
 Ensure-Git
@@ -61,7 +61,7 @@ Set-Location $Workdir
 
 switch ($Action) {
   "status" {
-    Run-Git -Args @("-c", "core.quotepath=false", "status", "--short", "--untracked-files=all")
+    Run-Git -GitArgs @("-c", "core.quotepath=false", "status", "--short", "--untracked-files=all")
   }
 
   "commit_inbox" {
@@ -87,7 +87,7 @@ switch ($Action) {
       if ($DryRun) {
         Write-Output "DRY_RUN_PUSH: origin current-branch"
       } else {
-        Run-Git -Args @("push")
+        Run-Git -GitArgs @("push")
       }
     }
   }
@@ -114,7 +114,7 @@ switch ($Action) {
       if ($DryRun) {
         Write-Output "DRY_RUN_PUSH: origin current-branch"
       } else {
-        Run-Git -Args @("push")
+        Run-Git -GitArgs @("push")
       }
     }
   }
@@ -141,7 +141,7 @@ switch ($Action) {
       if ($DryRun) {
         Write-Output "DRY_RUN_PUSH: origin current-branch"
       } else {
-        Run-Git -Args @("push")
+        Run-Git -GitArgs @("push")
       }
     }
   }
@@ -150,8 +150,9 @@ switch ($Action) {
     if ($DryRun) {
       Write-Output "DRY_RUN_PUSH: origin current-branch"
     } else {
-      Run-Git -Args @("push")
+      Run-Git -GitArgs @("push")
     }
   }
 }
+
 

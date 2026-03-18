@@ -2,6 +2,8 @@
 
 本文档定义「收件箱写作 → AI 审核整理 → CLI 执行 → 正式落库 → GitHub 管理」的完整执行流。
 
+配套架构图：`00-系统/工具调用架构图与分阶段职责图.md`
+
 核心原则：
 - **AI 负责"判断怎么执行"**
 - **CLI 负责"对库执行动作"**
@@ -71,22 +73,22 @@
 
 ```powershell
 # 搜索目标笔记
-./obsidian-flow.ps1 -Action search -Query "项目-第二大脑搭建"
+./obsidian-review-flow.ps1 -Action search -Query "项目-第二大脑搭建"
 
 # 打开今日日记
-./obsidian-flow.ps1 -Action open_daily
+./obsidian-review-flow.ps1 -Action open_daily
 
 # 追加内容到今日日记
-./obsidian-flow.ps1 -Action daily_append -Content "- [ ] 审核：xxx"
+./obsidian-review-flow.ps1 -Action daily_append -Content "- [ ] 审核：xxx"
 
 # 创建正式笔记草稿
-./obsidian-flow.ps1 -Action create -Path "03-项目/进行中/项目-xxx.md" -Content $content
+./obsidian-review-flow.ps1 -Action create -Path "03-项目/进行中/项目-xxx.md" -Content $content
 
 # 打开指定笔记
-./obsidian-flow.ps1 -Action open -Path "03-项目/进行中/项目-xxx.md"
+./obsidian-review-flow.ps1 -Action open -Path "03-项目/进行中/项目-xxx.md"
 
 # 追加内容到指定笔记
-./obsidian-flow.ps1 -Action append -Path "03-项目/进行中/项目-xxx.md" -Content $content
+./obsidian-review-flow.ps1 -Action append -Path "03-项目/进行中/项目-xxx.md" -Content $content
 ```
 
 ### 2.3 回退方案
@@ -114,7 +116,7 @@ my-second-brain/
 │  ├─ 审核模式输出格式.md
 │  ├─ 正确性校验规则.md
 │  └─ scripts/
-│     └─ obsidian-flow.ps1  # CLI 封装脚本
+│     └─ obsidian-review-flow.ps1  # CLI 封装脚本
 ├─ 01-收件箱/               # 收件箱笔记
 ├─ 02-日记/                 # 按年/月组织
 │  └─ 2026/
@@ -161,10 +163,10 @@ CLI 执行过程中可能产生的临时文件：
 
 ```powershell
 # 打开今日日记
-./obsidian-flow.ps1 -Action open_daily
+./obsidian-review-flow.ps1 -Action open_daily
 
 # 追加一条整理日志
-./obsidian-flow.ps1 -Action daily_append -Content "## 2026-03-18 整理记录
+./obsidian-review-flow.ps1 -Action daily_append -Content "## 2026-03-18 整理记录
 
 - 收件箱：2 篇
 - 已审核：1 篇
@@ -177,13 +179,13 @@ CLI 执行过程中可能产生的临时文件：
 
 ```powershell
 # 搜索项目笔记是否存在
-./obsidian-flow.ps1 -Action search -Query "项目-第二大脑搭建"
+./obsidian-review-flow.ps1 -Action search -Query "项目-第二大脑搭建"
 
 # 搜索主题 MOC 是否存在
-./obsidian-flow.ps1 -Action search -Query "MOC-知识管理"
+./obsidian-review-flow.ps1 -Action search -Query "MOC-知识管理"
 
 # 搜索是否已有某永久笔记
-./obsidian-flow.ps1 -Action search -Query "Obsidian-GitHub同步"
+./obsidian-review-flow.ps1 -Action search -Query "Obsidian-GitHub同步"
 ```
 
 ### 场景 3：向日记追加内容
@@ -192,12 +194,12 @@ CLI 执行过程中可能产生的临时文件：
 
 ```powershell
 # 追加待审核清单
-./obsidian-flow.ps1 -Action daily_append -Content "
+./obsidian-review-flow.ps1 -Action daily_append -Content "
 - [ ] 审核：项目-第二大脑搭建（目录移动待确认）
 - [ ] 审核：阅读-AI Agents（待补充来源）"
 
 # 追加已完成记录
-./obsidian-flow.ps1 -Action daily_append -Content "
+./obsidian-review-flow.ps1 -Action daily_append -Content "
 - [x] 已执行：创建 03-项目/进行中/项目-xxx.md 草稿"
 ```
 
@@ -242,7 +244,7 @@ source_note: "01-收件箱/2026-03-18 xxx.md"
 *来源笔记：01-收件箱/2026-03-18 xxx.md*
 "@
 
-./obsidian-flow.ps1 -Action create -Path "03-项目/进行中/项目-第二大脑搭建.md" -Content $content
+./obsidian-review-flow.ps1 -Action create -Path "03-项目/进行中/项目-第二大脑搭建.md" -Content $content
 ```
 
 ### 场景 5：打开目标笔记进行人工审核
@@ -251,13 +253,13 @@ source_note: "01-收件箱/2026-03-18 xxx.md"
 
 ```powershell
 # 打开待审核的正式草稿
-./obsidian-flow.ps1 -Action open -Path "03-项目/进行中/项目-第二大脑搭建.md"
+./obsidian-review-flow.ps1 -Action open -Path "03-项目/进行中/项目-第二大脑搭建.md"
 
 # 打开源收件箱笔记
-./obsidian-flow.ps1 -Action open -Path "01-收件箱/2026-03-18 xxx.md"
+./obsidian-review-flow.ps1 -Action open -Path "01-收件箱/2026-03-18 xxx.md"
 
 # 打开今日日记
-./obsidian-flow.ps1 -Action open_daily
+./obsidian-review-flow.ps1 -Action open_daily
 ```
 
 ---
@@ -386,12 +388,12 @@ AI 读取收件箱笔记 + 规则文件，输出审核结果：
 
 ```powershell
 # 1) 搜索目标笔记是否存在
-./obsidian-flow.ps1 -Action search -Query "项目-第二大脑搭建"
+./obsidian-review-flow.ps1 -Action search -Query "项目-第二大脑搭建"
 # 输出：存在 → 03-项目/进行中/项目-第二大脑搭建.md
 
 # 2) 创建正式草稿（新笔记名避免冲突）
 $draftContent = "（整理后的正文 + frontmatter）"
-./obsidian-flow.ps1 -Action create -Path "03-项目/进行中/项目-第二大脑搭建-2026-03-18.md" -Content $draftContent
+./obsidian-review-flow.ps1 -Action create -Path "03-项目/进行中/项目-第二大脑搭建-2026-03-18.md" -Content $draftContent
 
 # 3) 向目标笔记追加来源笔记区
 $sourceBlock = @"
@@ -399,13 +401,13 @@ $sourceBlock = @"
 
 - [[01-收件箱/2026-03-18 第二大脑目录规则.md]] → 整理
 "@
-./obsidian-flow.ps1 -Action append -Path "03-项目/进行中/项目-第二大脑搭建.md" -Content $sourceBlock
+./obsidian-review-flow.ps1 -Action append -Path "03-项目/进行中/项目-第二大脑搭建.md" -Content $sourceBlock
 
 # 4) 记录到当日日记
-./obsidian-flow.ps1 -Action daily_append -Content "- [ ] 审核：项目-第二大脑搭建-2026-03-18.md（待确认目录移动）"
+./obsidian-review-flow.ps1 -Action daily_append -Content "- [ ] 审核：项目-第二大脑搭建-2026-03-18.md（待确认目录移动）"
 
 # 5) 打开待审核笔记
-./obsidian-flow.ps1 -Action open -Path "03-项目/进行中/项目-第二大脑搭建-2026-03-18.md"
+./obsidian-review-flow.ps1 -Action open -Path "03-项目/进行中/项目-第二大脑搭建-2026-03-18.md"
 ```
 
 #### Step 4：人工确认
@@ -545,31 +547,33 @@ CLI 只负责：
 
 ## 十一、配套脚本
 
-配套脚本位置：`00-系统/scripts/obsidian-flow.ps1`
+配套脚本位置：`00-系统/scripts/obsidian-review-flow.ps1`
 
 脚本应提供以下接口：
 
 ```powershell
 # 搜索
-.\obsidian-flow.ps1 -Action search -Query <string>
+.\obsidian-review-flow.ps1 -Action search -Query <string>
 
 # 打开今日日记
-.\obsidian-flow.ps1 -Action open_daily
+.\obsidian-review-flow.ps1 -Action open_daily
 
 # 追加到今日日记
-.\obsidian-flow.ps1 -Action daily_append -Content <string>
+.\obsidian-review-flow.ps1 -Action daily_append -Content <string>
 
 # 创建笔记
-.\obsidian-flow.ps1 -Action create -Path <path> -Content <string>
+.\obsidian-review-flow.ps1 -Action create -Path <path> -Content <string>
 
 # 追加到指定笔记
-.\obsidian-flow.ps1 -Action append -Path <path> -Content <string>
+.\obsidian-review-flow.ps1 -Action append -Path <path> -Content <string>
 
 # 打开笔记
-.\obsidian-flow.ps1 -Action open -Path <path>
+.\obsidian-review-flow.ps1 -Action open -Path <path>
 ```
 
 ---
 
 *本文件与《AI整理规则.md》《整理检查清单.md》《审核模式输出格式.md》《正确性校验规则.md》《GitHub远程管理与提交策略.md》共同构成完整的执行体系。*
+
+
 
