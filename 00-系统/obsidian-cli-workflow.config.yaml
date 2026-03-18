@@ -1,0 +1,27 @@
+﻿mode: review
+vault_name: my second brain
+vault_path: d:\Docs\Books\my second brain
+
+paths:
+  system: 00-系统
+  inbox: 01-收件箱
+  daily: 02-日记
+  projects: 03-项目
+  resources: 05-资源
+  reading: 05-资源/阅读
+  permanent: 06-永久笔记
+  moc: 07-索引/MOC
+  templates: 90-System/templates
+
+permissions:
+  allow_move: false
+  allow_insert_body_links: false
+  allow_update_existing_notes: false
+  allow_split_notes: false
+  allow_update_moc: false
+
+execution:
+  search_first: true
+  keep_source_note: true
+  require_reference_url: true
+  fallback_to_uri: true
